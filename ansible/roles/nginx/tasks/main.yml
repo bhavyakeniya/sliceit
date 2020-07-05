@@ -1,21 +1,26 @@
 ---
 - name: Install Nginx and python-httplib2
-  apt: name={{item}} state=present update_cache=yes
+  apt: name={{item}} state=present
   with_items:
     - nginx
     - python-httplib2
+  tags: [ "packages" ]
 
 - name: Configure nginx site
   template: src={{ conf_template }} dest=/etc/nginx/sites-available/{{ app_name }} mode=0644
   notify: Restart nginx
+  tags: [ "configure" ]
 
 - name: Deactivate default nginx site
   file: path=/etc/nginx/sites-enabled/default state=absent
   notify: Restart nginx
+  tags: [ "configure" ]
 
 - name: Activate application nginx configuration
   file: src=/etc/nginx/sites-available/{{ app_name }} dest=/etc/nginx/sites-enabled/{{ app_name }} state=link
   notify: Restart nginx
+  tags: [ "configure" ]
 
 - name: Ensure Nginx is started
   service: name=nginx state=started enabled=yes
+  tags: [ "service" ]

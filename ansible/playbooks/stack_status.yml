@@ -1,10 +1,12 @@
 ---
 - hosts: loadbalancer
   become: true
+  gather_facts: false
   tasks:
     - name: Verify nginx service
       command: service nginx status
       ignore_errors: yes
+      changed_when: false
 
     - name: Verify nginx is listening on port 80
       wait_for: port=80 timeout=2
@@ -13,10 +15,12 @@
 
 - hosts: appserver
   become: true
+  gather_facts: false
   tasks:
     - name: Verify supervisor service
       command: service supervisor status
       ignore_errors: yes
+      changed_when: false
 
     - name: Verify gunicorn is running
       wait_for: port=80 timeout=2
@@ -24,6 +28,7 @@
 
 
 - hosts: control
+  gather_facts: false
   tasks:
     - name: Verify end to end test
       uri: url=http://{{item}}/external return_content=yes method=GET
@@ -35,6 +40,7 @@
       with_items: "{{lb_response.results}}"
 
 - hosts: appserver
+  gather_facts: false
   tasks:
     - name: Verify backend test
       uri: url=http://{{item}}/external return_content=yes method=GET

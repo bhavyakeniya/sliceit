@@ -1,6 +1,7 @@
 ---
 - hosts: loadbalancer
   become: true
+  gather_facts: false
   tasks:
     - name: Stop nginx
       service: name=nginx state=stopped
@@ -10,6 +11,7 @@
 
 - hosts: appserver
   become: true
+  gather_facts: false
   tasks:
     - name: Stop Supervisor
       service: name=supervisor state=stopped
@@ -21,6 +23,7 @@
 
 - hosts: loadbalancer
   become: true
+  gather_facts: false
   tasks:
     - name: Start nginx
       service: name=nginx state=started

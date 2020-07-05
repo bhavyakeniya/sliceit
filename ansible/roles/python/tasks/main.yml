@@ -1,16 +1,19 @@
 ---
 - name: Install packages
-  apt: name={{item}} state=latest update_cache=yes
+  apt: name={{item}} state=latest
   with_items:
     - python3-pip
     - python3-venv
     - python3-setuptools
     - supervisor
+  tags: [ "packages" ]
 
 - name: Install virtualenv
   pip:
     name: virtualenv
     executable: pip3
+  tags: [ "packages" ]
 
 - name: Ensure supervisor is started
   service: name=supervisor state=started enabled=yes
+  tags: [ "service" ]

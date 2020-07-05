@@ -1,4 +1,10 @@
 ---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Maintain apt cache
+      apt: update_cache=yes cache_valid_time=86400 autoremove=yes autoclean=yes
 - import_playbook: control.yml
 - import_playbook: loadbalancer.yml
 - import_playbook: app.yml
