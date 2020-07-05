@@ -1,0 +1,42 @@
+upstream {{ app_name }} {
+  {% for server in groups.appserver %}
+    server {{ server }};
+  {% endfor %}
+}
+
+proxy_cache_path /home/ansible/sliceit_cache levels=1:2 keys_zone=sliceit_app_cache:5m max_size=1g inactive=60m use_temp_path=off;
+
+server {
+  listen 80;
+
+  location /internal {
+    {% for server in groups.control %}
+      allow {{ ansible_default_ipv4.address }};
+    {% endfor %}
+    {% for server in groups.appserver %}
+      allow {{ ansible_default_ipv4.address }};
+    {% endfor %}
+    deny all;
+    proxy_pass http://{{ app_name }};
+  }
+
+  location /cached {
+    # Add cache debugging header
+    add_header X-Cache-Status $upstream_cache_status;
+
+    # Configure cache
+    proxy_cache sliceit_app_cache;
+    proxy_cache_revalidate on;
+    proxy_cache_min_uses 3;
+    proxy_cache_valid 200 301 302 60m;
+    proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+    proxy_cache_background_update on;
+    proxy_cache_lock on;
+    proxy_pass http://{{ app_name }};
+  }
+
+  location /external {
+    proxy_pass http://{{ app_name }};
+  }
+
+}

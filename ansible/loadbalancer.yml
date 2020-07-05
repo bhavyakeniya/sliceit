@@ -1,0 +1,5 @@
+---
+  - hosts: loadbalancer
+    become: true
+    roles:
+      - { role: nginx, conf_template: sliceit.conf.j2, app_name: sliceit }

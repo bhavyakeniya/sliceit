@@ -1,0 +1,26 @@
+control:
+  build: ./env
+  hostname: control
+  links:
+    - lb01
+    - app01
+  volumes:
+    - "./ansible:/home/ansible/ansible-code"
+  ports:
+    - "8000:80"
+
+lb01:
+  build: ./env
+  hostname: lb01
+  links:
+    - app01
+  ports:
+    - "8001:80"
+
+app01:
+  build: ./env
+  hostname: app01
+  ports:
+    - "8081:80"
+  cap_add:
+    - NET_ADMIN

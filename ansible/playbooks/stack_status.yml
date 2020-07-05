@@ -1,0 +1,46 @@
+---
+- hosts: loadbalancer
+  become: true
+  tasks:
+    - name: Verify nginx service
+      command: service nginx status
+      ignore_errors: yes
+
+    - name: Verify nginx is listening on port 80
+      wait_for: port=80 timeout=2
+      ignore_errors: yes
+
+
+- hosts: appserver
+  become: true
+  tasks:
+    - name: Verify supervisor service
+      command: service supervisor status
+      ignore_errors: yes
+
+    - name: Verify gunicorn is running
+      wait_for: port=80 timeout=2
+      ignore_errors: yes
+
+
+- hosts: control
+  tasks:
+    - name: Verify end to end test
+      uri: url=http://{{item}}/external return_content=yes method=GET
+      with_items: "{{ groups['loadbalancer'] }}"
+      register: lb_response
+
+    - fail: msg="Unexpected content"
+      when: "'external' not in item.content"
+      with_items: "{{lb_response.results}}"
+
+- hosts: appserver
+  tasks:
+    - name: Verify backend test
+      uri: url=http://{{item}}/external return_content=yes method=GET
+      with_items: "{{ groups['appserver'] }}"
+      register: app_response
+
+    - fail: msg="Unexpected content"
+      when: "'external' not in item.content"
+      with_items: "{{app_response.results}}"

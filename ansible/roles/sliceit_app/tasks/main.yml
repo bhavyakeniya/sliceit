@@ -1,0 +1,23 @@
+---
+- name: Copy application
+  copy:
+    src: "{{ app_dir }}"
+    dest: "{{ app_dest }}"
+    mode: 0755
+  notify: Restart Supervisor
+
+- name: Setup python virtualenv
+  pip: requirements={{ app_dest }}/{{ app_dir }}/{{ requirements_file }} virtualenv={{ venv_path }}/.{{ app_name }}_venv virtualenv_python=/usr/bin/python3.6
+  notify: Restart Supervisor
+
+- name: Copy startup script
+  template:
+    src: start.sh.j2
+    dest: "{{ app_dest }}/{{ app_dir }}/start.sh"
+    mode: '+x'
+
+- name: Copy Supervisor configuration
+  template:
+    src: supervisor_template.conf.j2
+    dest: /etc/supervisor/conf.d/{{ app_name }}.conf
+  notify: Reread Supervisor

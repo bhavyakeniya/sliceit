@@ -1,0 +1,4 @@
+---
+app_dest: /home/ansible
+requirements_file: requirements.txt
+venv_path: /home/ansible

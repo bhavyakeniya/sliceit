@@ -1,0 +1,28 @@
+---
+- hosts: loadbalancer
+  become: true
+  tasks:
+    - name: Stop nginx
+      service: name=nginx state=stopped
+
+    - wait_for: port=80 state=drained
+
+
+- hosts: appserver
+  become: true
+  tasks:
+    - name: Stop Supervisor
+      service: name=supervisor state=stopped
+
+    - name: Start Supervisor
+      service: name=supervisor state=started
+
+    - wait_for: port=80 timeout=10
+
+- hosts: loadbalancer
+  become: true
+  tasks:
+    - name: Start nginx
+      service: name=nginx state=started
+
+    - wait_for: port=80

@@ -1,0 +1,9 @@
+---
+- name: Reread Supervisor
+  command: "{{ item }}"
+  with_items:
+    - supervisorctl reread
+    - supervisorctl update
+
+- name: Restart Supervisor
+  command: supervisorctl restart {{ app_name }}

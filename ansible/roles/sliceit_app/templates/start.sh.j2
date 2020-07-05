@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd {{ app_dest }}/{{ app_dir }}
+
+source {{ venv_path }}/.{{ app_name }}_venv/bin/activate
+
+exec {{ app_command }}
