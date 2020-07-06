@@ -1,22 +1,21 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Role to deploy your python application and control restarts
 
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Default variables are specified in defaults folder. Other required variables are:
+- app_dir (directory of your application inside files folder of the role)
+- app_name (name of the application)
+- app_command (python command to start the application. For example "python run:app" or "gunicorn -c gunicorn.conf")
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- python_essentials role
 
 Example Playbook
 ----------------
@@ -24,8 +23,11 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
     - hosts: servers
+      become: true
       roles:
-         - { role: username.rolename, x: 42 }
+        - python_essentials
+        - { role: supervisor_deploy, app_dir: application, app_name: sliceit, app_command: 'gunicorn -c gunicorn_conf.py run:app' }
+
 
 License
 -------
