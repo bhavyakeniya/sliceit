@@ -1,15 +1,16 @@
 # SLICEIT
-**Task:**
-Application server with the following endpoints:
-/internal -> responds with text response "internal"
-/external -> responds with text response "external"
-/cached -> responds with text response "cached"
+**Task: **\
+&nbsp;
+Application server with the following endpoints: \
+/internal -> responds with text response "internal" \
+/external -> responds with text response "external" \
+/cached -> responds with text response "cached" \
 
 
-Fronting this application server with Nginx. In Nginx, following rules are added for the endpoints:
-/cached is cached
-/internal is accessible only from specific ips.
-/external is accessible to the general public.
+Fronting this application server with Nginx. In Nginx, following rules are added for the endpoints:&nbsp;
+/cached is cached &nbsp;
+/internal is accessible only from specific ips. \
+/external is accessible to the general public. \
 
 Deploying the application server in one machine and Nginx in another machine
 &nbsp;
