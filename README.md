@@ -1,5 +1,5 @@
 # SLICEIT
-**Task: **\
+**Task:** \
 &nbsp;
 Application server with the following endpoints: \
 /internal -> responds with text response "internal" \
