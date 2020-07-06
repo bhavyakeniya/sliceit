@@ -42,10 +42,10 @@ Deploying the application server in one machine and Nginx in another machine \
 	- loadbalancer (which will run nginx)
 	- appserver (on which the application will be deployed) \
 
-	&nbsp;
-  
+
 	Required SSH connections will be automatically setup within the containers and thus imitating the real world stack.
 	&nbsp;
+  
 - Enter the Control machine with the following command:
 
 	`docker exec -it -u ansible sliceit_control_1 bash`
