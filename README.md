@@ -38,14 +38,14 @@ Deploying the application server in one machine and Nginx in another machine \
     docker-compose up --build -d;
     ```
 	This sets up the stack locally with 3 containers repesenting
-	- control machine(from where ansible playbooks will be executed),
+	- control machine(from where ansible playbooks will be executed)
 	- loadbalancer (which will run nginx)
-	- appserver (on which the application will be deployed) \
+	- appserver (on which the application will be deployed) 
 
 
 	Required SSH connections will be automatically setup within the containers and thus imitating the real world stack.
 	&nbsp;
-  
+
 - Enter the Control machine with the following command:
 
 	`docker exec -it -u ansible sliceit_control_1 bash`
