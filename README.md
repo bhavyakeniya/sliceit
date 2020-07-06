@@ -42,7 +42,7 @@ Deploying the application server in one machine and Nginx in another machine \
 	- loadbalancer (which will run nginx)
 	- appserver (on which the application will be deployed)
 	&nbsp;
-	Required SSH connections will be automatically setup within the containers and thus imitating the real world stack
+	Required SSH connections will be automatically setup within the containers and thus imitating the real world stack.
 	&nbsp;
 - Enter the Control machine with the following command:
 
@@ -71,5 +71,5 @@ As required, endpoint "external" will be accessible to the general public, endpo
 &nbsp;
 
 ##### Other Features:
-- stack_status playbook to know the status of end-to-end stack
-- stack_restart playbook to restart the entire stack
+- <a href="https://github.com/bhavyakeniya/sliceit/blob/master/ansible/playbooks/stack_status.yml">stack_status</a> playbook to know the status of end-to-end stack
+- <a href="https://github.com/bhavyakeniya/sliceit/blob/master/ansible/playbooks/stack_restart.yml">stack_restart</a> playbook to restart the entire stack
