@@ -67,7 +67,7 @@ http://localhost:8001/cached
 
 As required, endpoint "external" will be accessible to the general public, endpoint "internal" will only be accessed from within the appserver(s), endpoint "cached" will be cached if it's requested for more than 3 times.
 
-**Note: Screenshots of the behaviours of all endpoints is available here**
+**Note: Screenshots of the behaviours of all endpoints is available <a href="https://github.com/bhavyakeniya/sliceit/tree/master/screenshots>"here</a>**
 &nbsp;
 
 ##### Other Features:
