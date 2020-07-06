@@ -1,25 +1,31 @@
 # SLICEIT
 **Task:** \
 &nbsp;
+&nbsp;
 Application server with the following endpoints: \
 /internal -> responds with text response "internal" \
 /external -> responds with text response "external" \
 /cached -> responds with text response "cached" \
+&nbsp;
+&nbsp;
 
-
-Fronting this application server with Nginx. In Nginx, following rules are added for the endpoints:&nbsp;
-/cached is cached &nbsp;
+Fronting this application server with Nginx. In Nginx, following rules are added for the endpoints: \
+/cached is cached \
 /internal is accessible only from specific ips. \
 /external is accessible to the general public. \
+&nbsp;
 
 Deploying the application server in one machine and Nginx in another machine
+&nbsp;
+&nbsp;
 &nbsp;
 &nbsp;
 
 **Note: Assuming Linux-based Ubuntu bionic OS for all hosts**
 &nbsp;
 &nbsp;
-
+&nbsp;
+&nbsp;
 ### Steps to setup and configure the stack:
 
 - Set-up the stack (locally for demo purposes):
@@ -49,7 +55,9 @@ Deploying the application server in one machine and Nginx in another machine
 
 This will provision the entire stack and you will have your application up and running
 &nbsp;
-
+&nbsp;
+&nbsp;
+&nbsp;
 ### Test
 The loadbalancer will be setup on localhost on port 8001. Test the following URLs:
 ```
