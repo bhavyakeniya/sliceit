@@ -10,12 +10,9 @@ server {
   listen 80;
 
   location /internal {
-    {% for server in groups.control %}
-      allow {{ ansible_default_ipv4.address }};
-    {% endfor %}
-    {% for server in groups.appserver %}
-      allow {{ ansible_default_ipv4.address }};
-    {% endfor %}
+  {% for server in groups.appserver %}
+    allow {{ ansible_default_ipv4.address }};
+  {% endfor %}
     deny all;
     proxy_pass http://{{ app_name }};
   }

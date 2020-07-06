@@ -5,7 +5,7 @@
     - python3-pip
     - python3-venv
     - python3-setuptools
-    - supervisor
+    - python3-dev
   tags: [ "packages" ]
 
 - name: Install virtualenv
@@ -13,7 +13,3 @@
     name: virtualenv
     executable: pip3
   tags: [ "packages" ]
-
-- name: Ensure supervisor is started
-  service: name=supervisor state=started enabled=yes
-  tags: [ "service" ]

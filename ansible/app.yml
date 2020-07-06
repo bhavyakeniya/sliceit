@@ -3,5 +3,5 @@
     become: true
     gather_facts: false
     roles:
-      - python
-      - { role: sliceit_app, app_dir: application, app_name: sliceit, app_command: 'gunicorn -c gunicorn_conf.py run:app' }
+      - python_essentials
+      - { role: supervisor_deploy, app_dir: application, app_name: sliceit, app_command: 'gunicorn -c gunicorn_conf.py run:app' }

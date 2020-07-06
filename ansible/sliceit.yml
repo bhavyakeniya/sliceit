@@ -3,8 +3,9 @@
   become: true
   gather_facts: false
   tasks:
-    - name: Maintain apt cache
-      apt: update_cache=yes cache_valid_time=86400 autoremove=yes autoclean=yes
+    - name: Maintain apt cache and install iproute2
+      apt: name=iproute2 update_cache=yes cache_valid_time=86400
+
 - import_playbook: control.yml
 - import_playbook: loadbalancer.yml
 - import_playbook: app.yml
