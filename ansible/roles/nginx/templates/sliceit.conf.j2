@@ -6,14 +6,6 @@ upstream {{ app_name }} {
 
 proxy_cache_path /home/ansible/sliceit_cache levels=1:2 keys_zone=sliceit_app_cache:5m max_size=1g inactive=60m use_temp_path=off;
 
-#server {
-#  listen 80;
-#  ## Only requests to our Host are allowed i.e. localhost or 127.0.0.1
-#	if ($host !~ ^(localhost|127.0.0.1)$ ) {
-#			   return 403;
-#	}
-#  return 301 https://$host$request_uri;
-#}
 
 server {
   listen 80;
