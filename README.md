@@ -40,7 +40,7 @@ Deploying the application server in one machine and Nginx in another machine \
 	This sets up the stack locally with 3 containers repesenting
 	- control machine(from where ansible playbooks will be executed)
 	- loadbalancer (which will run nginx)
-	- appserver (on which the application will be deployed) 
+	- appserver (on which the application will be deployed)
 
 
 	Required SSH connections will be automatically setup within the containers and thus imitating the real world stack.
@@ -75,3 +75,11 @@ As required, endpoint "external" will be accessible to the general public, endpo
 ##### Other Features:
 - <a href="https://github.com/bhavyakeniya/sliceit/blob/master/ansible/playbooks/stack_status.yml">stack_status</a> playbook to know the status of end-to-end stack
 - <a href="https://github.com/bhavyakeniya/sliceit/blob/master/ansible/playbooks/stack_restart.yml">stack_restart</a> playbook to restart the entire stack
+
+## Step 2
+
+Requirement: Hardening of servers
+
+Steps to run end-to-end provisioning still remains the same as explained earlier.
+
+Hardening steps implemented are mentioned <a href="https://github.com/bhavyakeniya/sliceit/blob/master/ServerHardening.md">here</a>
