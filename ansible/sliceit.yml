@@ -6,6 +6,9 @@
     - name: Maintain apt cache and install iproute2
       apt: name=iproute2 update_cache=yes cache_valid_time=86400
 
+    - name: Keeping packages up to date
+      apt: upgrade=safe autoremove=yes autoclean=yes
+
 - import_playbook: control.yml
 - import_playbook: loadbalancer.yml
 - import_playbook: app.yml

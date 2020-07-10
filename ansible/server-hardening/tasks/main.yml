@@ -1,0 +1,75 @@
+---
+- name: Install Fail2Ban
+  apt: name=fail2ban state=present
+
+- name: Check if PermitRootLogin already disabled
+  shell: grep -c "^PermitRootLogin no" /etc/ssh/sshd_config || true
+  register: permitrootlogin_present
+
+- name: Disable remote root login
+  lineinfile: dest=/etc/ssh/sshd_config line="PermitRootLogin no"
+  when: permitrootlogin_present.stdout == "0"
+  notify: Restart ssh
+
+- name: Check if PasswordAuthentication is already disallowed
+  shell: grep -c "^PasswordAuthentication no" /etc/ssh/sshd_config || true
+  register: passwordauthentication_present
+
+- name: Disallow SSH password authentication
+  lineinfile: dest=/etc/ssh/sshd_config line="PasswordAuthentication no"
+  when: passwordauthentication_present.stdout == "0"
+  notify: Restart ssh
+
+- name: Enable SSH Login for Specific Users Only (Check if line is already present)
+  shell: grep -c "^AllowUsers ansible" /etc/ssh/sshd_config || true
+  register: allowuser_present
+
+- name: Enable SSH Login for Specific Users Only
+  lineinfile: dest=/etc/ssh/sshd_config line="AllowUsers ansible"
+  when: allowuser_present.stdout == "0"
+  notify: Restart ssh
+
+- name: Configure Fail2Ban
+  copy: src=jail.local dest=/etc/fail2ban/ mode=0644
+  notify: Restart fail2ban
+
+- name: Copy sysctl.conf
+  copy: src=sysctl.conf dest=/etc/ mode=0644
+  tags: [ "configure" ]
+
+- name: Apply sysctl settings
+  shell: sysctl -p
+
+- name: Set security limits (Check if line exists)
+  shell: grep -c "^ansible hard nproc" /etc/security/limits.conf || true
+  register: limits_present
+
+- name: Set security limits
+  lineinfile: dest=/etc/security/limits.conf line="ansible hard nproc {{ process_limit }}"
+  when: limits_present.stdout == "0"
+
+- name: Guard against IP spoofing (Check if line present)
+  shell: grep -c "^nospoof on" /etc/host.conf || true
+  register: nospoof_present
+
+- name: Guard against IP spoofing
+  lineinfile: dest=/etc/host.conf line="nospoof on"
+  when: nospoof_present.stdout == "0"
+
+
+
+
+# - name: Copy iptables script
+#   copy: src=iptables.sh dest=/home/ansible/ mode="+x"
+#
+# - name: Configure iptables to allow inbound connections only on ports 80, 22
+#   shell: /home/ansible/iptables.sh
+
+# - name: Secure Shared Memory (Check if line is present)
+#   shell: grep -c "^none /run/shm tmpfs defaults,noexec,nosuid,ro 0 0" /etc/fstab || true
+#   register: line_present
+#
+# - name: Secure Shared Memory
+#   lineinfile: dest=/etc/fstab line="none /run/shm tmpfs defaults,noexec,nosuid,ro 0 0"
+#   when: line_present.stdout == "0"
+#   notify: Reboot

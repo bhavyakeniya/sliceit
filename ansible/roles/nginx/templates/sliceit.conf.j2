@@ -6,8 +6,23 @@ upstream {{ app_name }} {
 
 proxy_cache_path /home/ansible/sliceit_cache levels=1:2 keys_zone=sliceit_app_cache:5m max_size=1g inactive=60m use_temp_path=off;
 
+#server {
+#  listen 80;
+#  ## Only requests to our Host are allowed i.e. localhost or 127.0.0.1
+#	if ($host !~ ^(localhost|127.0.0.1)$ ) {
+#			   return 403;
+#	}
+#  return 301 https://$host$request_uri;
+#}
+
 server {
   listen 80;
+  #ssl on;
+  #server_name localhost;
+
+  #ssl_certificate /opt/cert/localhost.crt;
+  #ssl_certificate_key /opt/cert/localhost.key;
+  #ssl_dhparam /opt/cert/dhparams.pem;
 
   location /internal {
   {% for server in groups.appserver %}
@@ -34,6 +49,21 @@ server {
 
   location /external {
     proxy_pass http://{{ app_name }};
+  }
+
+  if ($request_method !~ ^(GET|HEAD|POST)$ )
+  {
+     return 405;
+  }
+
+  ## Block download agents ##
+	if ($http_user_agent ~* LWP::Simple|wget) {
+            return 403;
+  }
+
+	## Block some robots ##
+  if ($http_user_agent ~* msnbot|scrapbot) {
+            return 403;
   }
 
 }

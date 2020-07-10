@@ -6,6 +6,24 @@
     - python-httplib2
   tags: [ "packages" ]
 
+- name: Copy nginx configuration
+  copy: src=nginx.conf dest=/etc/nginx/ mode=0644
+  notify: Restart nginx
+  tags: [ "configure" ]
+
+- name: Copy certificates
+  copy: src="{{item}}" dest=/opt/cert/ mode=0644
+  with_items:
+    - localhost.crt
+    - localhost.key
+    - dhparams.pem
+  notify: Restart nginx
+  tags: [ "configure" ]
+
+# - name: Copy DH params
+#   copy: src=dhparams.pem dest=/opt/cert/ mode=0644
+#   tags: [ "configure" ]
+
 - name: Configure nginx site
   template: src={{ conf_template }} dest=/etc/nginx/sites-available/{{ app_name }} mode=0644
   notify: Restart nginx
