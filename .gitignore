@@ -1,1 +1,5 @@
 *.retry
+assignment3/infrastructure-provisioning/.terraform/
+assignment3/infrastructure-provisioning/slice-plan
+assignment3/infrastructure-provisioning/terraform.tfstate
+assignment3/infrastructure-provisioning/terraform.tfstate.backup
